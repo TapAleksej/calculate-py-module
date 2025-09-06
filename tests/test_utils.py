@@ -1,6 +1,6 @@
 import os
 import tempfile
-from app.utils import load_config, save_result
+from src.app.utils import load_config, save_result
 
 def test_load_config_existing_file():
     # Создаем временный файл конфигурации

@@ -3,7 +3,8 @@ from setuptools import setup, find_packages
 setup(
     name="python-calculator-app",
     version="0.1.0",
-    packages=find_packages(),
+    package_dir={"": "src"},  # ← ИЗМЕНЕНИЕ: указываем где искать пакеты
+    packages=find_packages(where="src"),
     install_requires=[
         "flask==2.3.3",
     ],
