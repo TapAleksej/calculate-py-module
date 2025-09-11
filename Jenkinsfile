@@ -19,7 +19,6 @@ pipeline {
         }
       }
     }
-  }
   stage('Setup Environment') {
     steps {
       script {
@@ -93,6 +92,5 @@ pipeline {
         archiveArtifacts artifacts: "${env.PRJ_NAME}_${BUILD_NUMBER}.tar.gz", allowEmptyArchive: false
       }
     }
-  }
-        
+  }     
 }
