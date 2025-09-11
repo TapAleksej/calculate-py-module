@@ -14,7 +14,7 @@ pipeline {
         dir(env.PRJ_NAME) {
           sh "git pull"
         } else {
-          sh "git clone ${env.GIT_URL} ${env.PRJ_NAME}
+          sh "git clone ${env.GIT_URL} ${env.PRJ_NAME}"
         }
       }
     }
