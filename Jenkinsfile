@@ -13,7 +13,8 @@ pipeline {
       if (fileExists("${env.PRJ_NAME}/.git")) {
         dir(env.PRJ_NAME) {
           sh "git pull"
-        } else {
+        } 
+      } else {
           sh "git clone ${env.GIT_URL} ${env.PRJ_NAME}"
         }
       }
