@@ -56,7 +56,7 @@ pipeline {
             sh """
               cd ${env.PRJ_NAME}
               . venv/bin/activate
-              bandit -r app/ -f json -o bandit_results.json || true
+              bandit -r src/ -f json -o bandit_results.json || true
             """
             archiveArtifacts artifacts: "${env.PRJ_NAME}/bandit_results.json", allowEmptyArchive: true
           }
