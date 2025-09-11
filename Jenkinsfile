@@ -10,15 +10,17 @@ pipeline {
 
   stages {
     stage('Checkout') {
-      script {
-        if (fileExists("${env.PRJ_NAME}/.git")) {
-          dir(env.PRJ_NAME) {
-            sh "git pull"
-          } 
-        } else {
-            sh "git clone ${env.GIT_URL} ${env.PRJ_NAME}"
-          }
-       }
+      steps {
+        script {
+          if (fileExists("${env.PRJ_NAME}/.git")) {
+            dir(env.PRJ_NAME) {
+              sh "git pull"
+            } 
+          } else {
+              sh "git clone ${env.GIT_URL} ${env.PRJ_NAME}"
+            }
+         }
+      }
     }
 
   stage('Setup Environment') {
