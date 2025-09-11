@@ -10,7 +10,7 @@ pipeline {
 
   stages {
     stage('Checkout') {
-      if (fileExists("${env.PRJ_NAME}/.git)) {
+      if (fileExists("${env.PRJ_NAME}/.git")) {
         dir(env.PRJ_NAME) {
           sh "git pull"
         } else {
