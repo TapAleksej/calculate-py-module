@@ -82,7 +82,7 @@ pipeline {
         sh """
           cd ${env.PRJ_NAME}
           . venv/bin/activate
-          python setup.py bdist_wheel
+          python setup.py sdist bdist_wheel
         """
       }
     }
