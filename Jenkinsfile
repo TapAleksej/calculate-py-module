@@ -10,15 +10,17 @@ pipeline {
 
   stages {
     stage('Checkout') {
-      if (fileExists("${env.PRJ_NAME}/.git")) {
-        dir(env.PRJ_NAME) {
-          sh "git pull"
-        } 
-      } else {
-          sh "git clone ${env.GIT_URL} ${env.PRJ_NAME}"
-        }
-      }
+      script {
+        if (fileExists("${env.PRJ_NAME}/.git")) {
+          dir(env.PRJ_NAME) {
+            sh "git pull"
+          } 
+        } else {
+            sh "git clone ${env.GIT_URL} ${env.PRJ_NAME}"
+          }
+       }
     }
+
   stage('Setup Environment') {
     steps {
       script {
@@ -26,7 +28,7 @@ pipeline {
           maxCacheSize: 1,
           caches: [
             arbitraryFileCache(
-              chacheName: "venv-cache-${env.PRJ_NAME}",
+              cacheName: "venv-cache-${env.PRJ_NAME}",
               path: "${env.WORKSPACE}/${env.PRJ_NAME}/venv"
             )
           ]
@@ -44,7 +46,7 @@ pipeline {
       }
     }
   }
-  stage('Parallel Checks)' {
+  stage('Parallel Checks') {
     parallel {
       stage('Security Scan') {
         steps {
@@ -52,7 +54,7 @@ pipeline {
             sh """
               cd ${env.PRJ_NAME}
               . venv/bin/activate
-              bandir -r app/ -f json -o bandit_results.json || true
+              bandit -r app/ -f json -o bandit_results.json || true
             """
             archiveArtifacts artifacts: "${env.PRJ_NAME}/bandit_results.json", allowEmptyArchive: true
           }
