@@ -55,7 +55,7 @@ pipeline {
               . venv/bin/activate
               bandir -r app/ -f json -o bandit_results.json || true
             """
-            archiveArtifacts: "${env.PRJ_NAME}/bandit_results.json", allowEmptyArchive: true
+            archiveArtifacts artifacts: "${env.PRJ_NAME}/bandit_results.json", allowEmptyArchive: true
           }
         }
       }
@@ -67,7 +67,7 @@ pipeline {
               . venv/bin/activate
               PYTHONPATH=src pytest -v tests/ --junitxml=tests-result.xml
             """
-            archiveArtifacts: "${env.PRJ_NAME}/tests-result.xml", allowEmptyArchive: true
+            archiveArtifacts artifacts: "${env.PRJ_NAME}/tests-result.xml", allowEmptyArchive: true
           }
         }
       }
@@ -90,7 +90,7 @@ pipeline {
         sh """
           tar -czvf ${workspace}/${env.PRJ_NAME}_${BUILD_NUMBER}.tar.gz ${env.PRJ_NAME}/dist/
         """
-        archiveArtifacts: "${env.PRJ_NAME}_${BUILD_NUMBER}.tar.gz", allowEmptyArchive: false
+        archiveArtifacts artifacts: "${env.PRJ_NAME}_${BUILD_NUMBER}.tar.gz", allowEmptyArchive: false
       }
     }
   }
