@@ -31,7 +31,7 @@ pipeline {
           caches: [
             arbitraryFileCache(
               cacheName: "venv-cache-${env.PRJ_NAME}",
-              path: "${env.WORKSPACE}/${env.PRJ_NAME}/venv"
+              path: "${env.WORKSPACE}/${env.PRJ_NAME}/.venv"
             )
           ]
         ) {
@@ -55,7 +55,7 @@ pipeline {
           script {
             sh """
               cd ${env.PRJ_NAME}
-              . venv/bin/activate
+              . .venv/bin/activate
               bandit -r src/ -f json -o bandit_results.json || true
             """
             archiveArtifacts artifacts: "${env.PRJ_NAME}/bandit_results.json", allowEmptyArchive: true
