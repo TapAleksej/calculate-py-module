@@ -1,11 +1,10 @@
 def GIT_URL="git@github.com:AnastasiyaGapochkina01/calculate-py-module.git"
-
 pipeline {
   agent any
 
   environment {
     PRJ_NAME = "calc"
-    VENV_DIR = "${env.WORKSPACE}/${env.PRJ_NAME}/.venv"
+    VENV_DIR = "${env.WORKSPACE}/${env.PRJ_NAME}/venv"
   }
 
   stages {
@@ -31,16 +30,16 @@ pipeline {
           caches: [
             arbitraryFileCache(
               cacheName: "venv-cache-${env.PRJ_NAME}",
-              path: "${env.WORKSPACE}/${env.PRJ_NAME}/.venv"
+              path: "${env.WORKSPACE}/${env.PRJ_NAME}/venv"
             )
           ]
         ) {
           sh """
             cd ${env.PRJ_NAME}
-            if [ ! -d .venv ]; then
-              python3 -m venv .venv
+            if [ ! -d venv ]; then
+              python3 -m venv venv
             fi
-            . .venv/bin/activate
+            . venv/bin/activate
             pip install -e .
             pip install -r requirements.txt
           """
@@ -55,7 +54,7 @@ pipeline {
           script {
             sh """
               cd ${env.PRJ_NAME}
-              . .venv/bin/activate
+              . venv/bin/activate
               bandit -r src/ -f json -o bandit_results.json || true
             """
             archiveArtifacts artifacts: "${env.PRJ_NAME}/bandit_results.json", allowEmptyArchive: true
@@ -67,7 +66,7 @@ pipeline {
           script {
             sh """
               cd ${env.PRJ_NAME}
-              . .venv/bin/activate
+              . venv/bin/activate
               PYTHONPATH=src pytest -v tests/ --junitxml=tests-result.xml
             """
             archiveArtifacts artifacts: "${env.PRJ_NAME}/tests-result.xml", allowEmptyArchive: true
@@ -81,7 +80,7 @@ pipeline {
       script {
         sh """
           cd ${env.PRJ_NAME}
-          . .venv/bin/activate
+          . venv/bin/activate
           python setup.py bdist_wheel
         """
       }
