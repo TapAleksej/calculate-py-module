@@ -1,4 +1,4 @@
-def GIT_URL="git@github.com:AnastasiyaGapochkina01/calculate-py-module.git"
+def GIT_URL="git@github.com:TapAleksej/calculate-py-module.git"
 pipeline {
   agent any
 
